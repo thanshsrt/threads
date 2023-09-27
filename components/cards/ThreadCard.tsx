@@ -29,8 +29,6 @@ const ThreadCard = ({
   comments,
   isComment,
 }: Props) => {
-  console.log(isComment + "_" + JSON.stringify(community));
-
   return (
     <article
       className={`flex w-full flex-col rounded-xl ${

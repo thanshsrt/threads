@@ -34,6 +34,37 @@ type Event = {
   type: EventType;
 };
 
+export const svixVerification = () => {
+  const payload =
+    '{"data":{"created_at":1695783714765,"email_address":"thanabalakrishnan.ravuthakumar@gmail.com","id":"orginv_2Vxhc1wvN68hFWQylHOwkXr5ZDg","object":"organization_invitation","organization_id":"org_2VxhS9lWcWDV150wVX9doRm8PTR","private_metadata":{},"public_metadata":{},"role":"basic_member","status":"accepted","updated_at":1695783880023},"object":"event","type":"organizationInvitation.accepted"}';
+
+  const heads = {
+    "svix-id": "msg_2VxhxBjHJyOCbfeqe9OGC7aXkFv",
+    "svix-timestamp": "1695802896",
+    "svix-signature": "v1,Co9rUfKREz4PINPOUWkl6xpfQJ1wVqBy1YxbJjzmyIU=",
+  };
+
+  // Activitate Webhook in the Clerk Dashboard.
+  // After adding the endpoint, you'll see the secret on the right side.
+  const wh = new Webhook(process.env.NEXT_CLERK_WEBHOOK_SECRET || "");
+
+  let evnt: Event | null = null;
+
+  try {
+    evnt = wh.verify(
+      JSON.stringify(payload),
+      heads as IncomingHttpHeaders & WebhookRequiredHeaders
+    ) as Event;
+  } catch (err) {
+    console.log(err);
+    return NextResponse.json({ message: err }, { status: 400 });
+  }
+
+  const eventType: EventType = evnt?.type!;
+
+  console.log("Webhook event type", eventType);
+};
+
 export const POST = async (request: Request) => {
   const payload = await request.json();
   const header = headers();

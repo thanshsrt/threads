@@ -29,7 +29,7 @@ interface Props {
   user: {
     id: string;
     objectId: string;
-    userName: string;
+    username: string;
     name: string;
     bio: string;
     image: string;
@@ -48,7 +48,7 @@ const AccountProfile = ({ user, btnTitle }: Props) => {
     defaultValues: {
       profile_photo: user?.image || "",
       name: user?.name || "",
-      username: user?.userName || "",
+      username: user?.username || "",
       bio: user?.bio || "",
     },
   });
